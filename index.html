@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Для Мамы</title>
+  <style>
+    @font-face {
+      font-family: 'MyCustomFont';
+      src: url('Fonts/Slavic-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      background-color: #fbf8e9;
+      font-family: 'MyCustomFont', sans-serif;
+      text-align: center;
+      color: #1c3b2f;
+    }
+
+    .curved-text {
+      margin-top: 40px;
+    }
+
+    .curved-text svg {
+      width: 100%;
+      height: 350px;
+    }
+
+    .image-container {
+      margin-top: -170px;
+    }
+
+    .image-container img {
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 30px;
+      background-color: #c4f9c4;
+      color: #004d00;
+      padding: 10px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #b2f0b2;
+    }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #fffdf5;
+      margin: 10% auto;
+      padding: 30px;
+      border: 2px solid #a0c8a0;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 15px;
+      font-size: 1.2rem;
+      text-align: left;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: #888;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #444;
+    }
+
+    /* Блоки воспоминаний */
+    .memory-section {
+      margin-top: 60px;
+      background-color: #ffffff;
+      padding: 60px 20px;
+    }
+
+    .memory {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+      margin-bottom: 60px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .memory img {
+      max-width: 100%;
+      border-radius: 20px;
+      transition: transform 0.5s ease;
+    }
+
+    .memory p {
+      font-size: 1.2rem;
+      margin-top: 15px;
+      color: #3a5a40;
+    }
+
+    .memory.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .memory:hover img {
+      transform: scale(1.03);
+    }
+    .gallery-section {
+      padding: 60px 20px;
+      background-color: #f6f3e9;
+    }
+
+    .gallery-section h2 {
+      font-size: 2rem;
+      color: #3a5a40;
+      margin-bottom: 30px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .gallery-item img:hover {
+      transform: scale(1.05);
+    }
+    .music-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #f8caca;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: fall 5s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+      }
+    }
+    .final-message {
+      margin: 60px auto 40px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #d64550;
+      animation: fadeIn 2s ease-in-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <div class="curved-text">
+    <svg viewBox="0 0 1000 500">
+      <defs>
+        <path id="curve" d="M100,400 A400,300 0 0,1 900,400" />
+      </defs>
+      <text font-size="64" fill="#1c3b2f" font-weight="bold">
+        <textPath href="#curve" startOffset="50%" text-anchor="middle">
+          С ДНЁМ РОЖДЕНИЯ, МАМА!
+        </textPath>
+      </text>
+    </svg>
+  </div>
+
+  <div class="image-container">
+    <img src="https://i.pinimg.com/736x/80/81/3d/80813d66d389d5a017d8c831a384e839.jpg" alt="Иллюстрация">
+  </div>
+
+  <a class="button" onclick="openModal()">Открыть письмо</a>
+
+  <!-- Модальное окно -->
+  <div id="letterModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p>
+        Дорогая Мамочка,<br><br>
+        В этот особенный день я хочу сказать тебе огромное спасибо за всё. За твою любовь, тепло, заботу и бесконечную поддержку. Ты — моё вдохновение и сила. 💖<br><br>
+        Я желаю тебе крепкого здоровья, радости, и чтобы каждый день приносил тебе только улыбки. Пусть мечты сбываются, а сердце всегда будет согрето любовью.<br><br>
+        С Днём Рождения, моя родная! Ты самая лучшая мама на свете!<br><br>
+        С любовью,<br>
+        Алина.
+      </p>
+    </div>
+  </div>
+
+  <!-- Воспоминания -->
+  <div class="memory-section">
+    <div class="memory">
+      <img src="IMG_0330.JPG" alt="Момент 1">
+      <p>Ты самая невероятная, умная и мудрая!</p>
+    </div>
+    <div class="memory">
+      <img src="IMG_0332.JPG" alt="Момент 2">
+      <p>Необыкновенно красивая!</p>
+    </div>
+    <div class="memory">
+      <img src="IMG_0329.JPG" alt="Момент 3">
+      <p>Наша ниточка с тобой навсегда.</p>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('letterModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('letterModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('letterModal');
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    // Появление блоков при скролле
+    const memories = document.querySelectorAll('.memory');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    memories.forEach(memory => observer.observe(memory));
+    function toggleMusic() {
+      const music = document.getElementById("bg-music");
+      music.paused ? music.play() : music.pause();
+    }
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.querySelector('.hearts-container').appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+  <div class="gallery-section">
+    <h2>Любимые Моменты 📸</h2>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/bf/db/b4/bfdbb4378b46505e86999dc2484a6fec.jpg" alt="Фото 1">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/3c/16/0f/3c160f2bc3d243f4bc3f9c5e85e55dc4.jpg" alt="Фото 2">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/3b/93/5e/3b935ea512e1f09f654a9c2b18d798a8.jpg" alt="Фото 3">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/56/46/a3/5646a3aedec1a39e2698b146cb50b8dc.jpg" alt="Фото 4">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/09/06/05/0906053daf09127e2f45ba9083e64fcd.jpg" alt="Фото 5">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/53bd92bbe4b0b8633f92a5af/1464641649607-CQQ0A64Z8O0OBENE2M4Z/Day+37.jpg?format=2500w" alt="Фото 6">
+      </div>
+    </div>
+  </div>
+  
+  <audio id="bg-music" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+  <button onclick="toggleMusic()" class="music-button">⏯ Музыка</button>
+  <div class="hearts-container"></div>
+  <div class="final-message">
+    Я люблю тебя!
+  </div>
+
+
+</body>
+</html>
